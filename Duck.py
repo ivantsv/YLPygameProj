@@ -5,8 +5,9 @@ import time
 
 
 class Duck:
-    def __init__(self, surface):
+    def __init__(self, surface, speed):
         self.screen = surface
+        self.speed = speed
         self.ducks = []
 
     def create_new_duck(self, right=True):
@@ -39,7 +40,7 @@ class Duck:
                 if starting_x < classic_x:
                     offset *= -1
                 if self.ducks[i][0].x < 1400 - 40:
-                    self.ducks[i][0] = self.ducks[i][0].move(5 + offset, 0)
+                    self.ducks[i][0] = self.ducks[i][0].move(self.speed + offset, 0)
                 else:
                     ducks_to_delete.append(i)
             else:
@@ -47,7 +48,7 @@ class Duck:
                 if starting_x > classic_x:
                     offset *= -1
                 if self.ducks[i][0].x > 5:
-                    self.ducks[i][0] = self.ducks[i][0].move(-5 - offset, 0)
+                    self.ducks[i][0] = self.ducks[i][0].move(-self.speed - offset, 0)
                 else:
                     ducks_to_delete.append(i)
         for i in ducks_to_delete:
