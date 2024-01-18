@@ -9,7 +9,6 @@ class GuitarHero:
         self.WIDTH, self.HEIGHT = 1400, 700
 
         self.screen = pg.display.set_mode((self.WIDTH, self.HEIGHT))
-        pg.display.set_caption('Guitar Hero')
 
         self.clock = pg.time.Clock()
         self.FPS = 60
@@ -317,6 +316,7 @@ class GuitarHero:
                         dmg = boss_animation[2]
                     else:
                         self.running = False
+                        pg.mixer.Channel(0).stop()
                         final_animation = True
                     aims = self.create_aims()
                     score = 0

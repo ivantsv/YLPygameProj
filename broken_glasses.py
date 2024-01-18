@@ -63,6 +63,9 @@ class Point:
     def play(self):
         # change_animation_event = pg.USEREVENT + 1
         # pg.time.set_timer(change_animation_event, 1500)
+        pg.mixer.music.load('Music/horror.wav')
+        pg.mixer.music.set_volume(0.5)
+        pg.mixer.music.play(-1)
         bg_slide = 0
         dialogue1_slide = 0
         dialogue_2_slide = 0
@@ -120,6 +123,7 @@ class Point:
                         self.running = False
                     if self.button_turn_off.checkForInput(pg.mouse.get_pos()):
                         final_fight = True
+                        pg.mixer.music.stop()
                         self.running = False
 
             self.screen.blit(self.glasses, (-50, -20))

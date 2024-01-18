@@ -3,6 +3,9 @@ import pygame as pg
 
 class Tutorial:
     def play(self, next_stage, width=1400, height=700):
+        pg.mixer.music.load('Music/tutorial.mp3')
+        pg.mixer.music.set_volume(0.5)
+        pg.mixer.music.play(-1)
         tutorial_animation = []
         # change_sprite_event = pg.USEREVENT + 1
         # pg.time.set_timer(change_sprite_event, 500)
@@ -37,4 +40,5 @@ class Tutorial:
             clock.tick(fps)
 
         if start_first_level:
+            pg.mixer.music.stop()
             next_stage.play()
