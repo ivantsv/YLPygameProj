@@ -13,6 +13,7 @@ BG = pygame.image.load("assets/Background.jpeg")
 BG = pygame.transform.scale(BG, (1400, 700))
 
 
+
 def get_font(size):
     return pygame.font.Font("assets/font.ttf", size)
 
