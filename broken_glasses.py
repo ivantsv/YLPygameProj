@@ -1,7 +1,7 @@
 import pygame as pg
 from Button import Button
-# from marhoun import Game
-# from final_boss import GuitarHero
+from marhoun import Game
+from final_boss import GuitarHero
 
 
 class Point:
@@ -58,7 +58,7 @@ class Point:
         self.button_restart = Button(button_image, (350, 350), 'Restart', pg.font.SysFont('Fonts/font2.ttf', 48),
                                      (255, 255, 255), (155, 155, 155))
         self.button_turn_off = Button(button_image, (1070, 350), 'Turn Off', pg.font.SysFont('Fonts/font2.ttf', 48),
-                                     (255, 255, 255), (155, 155, 155))
+                                      (255, 255, 255), (155, 155, 155))
 
     def play(self):
         # change_animation_event = pg.USEREVENT + 1
@@ -70,9 +70,12 @@ class Point:
         cur_animation_bg = self.bg_animation[bg_slide]
         cur_animation_dg = None
         show_agent = False
-        mouse_clicked = False
+        infinity_mode = False
+        final_fight = False
 
         while self.running:
+            mouse_clicked = False
+
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.running = False
@@ -113,11 +116,19 @@ class Point:
                 self.button_turn_off.changeColor(pg.mouse.get_pos())
                 if mouse_clicked:
                     if self.button_restart.checkForInput(pg.mouse.get_pos()):
-                        return 'Start Levels'
+                        infinity_mode = True
+                        self.running = False
                     if self.button_turn_off.checkForInput(pg.mouse.get_pos()):
-                        return 'Final Boss'
+                        final_fight = True
+                        self.running = False
 
             self.screen.blit(self.glasses, (-50, -20))
             pg.display.update()
             self.clock.tick(self.FPS)
 
+        if infinity_mode:
+            g = Game(-1, 15, None)
+            g.play()
+        if final_fight:
+            fb = GuitarHero()
+            fb.play(25)

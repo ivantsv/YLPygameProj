@@ -1,5 +1,6 @@
 import pygame as pg
 import random
+from marhoun import EndGame
 
 
 class GuitarHero:
@@ -172,6 +173,8 @@ class GuitarHero:
         df2 = boss_animation[1]
         dmg = boss_animation[2]
 
+        final_animation = False
+
         while self.running:
             self.screen.fill(self.background)
             self.screen.blit(bg, (401, 0))
@@ -314,6 +317,7 @@ class GuitarHero:
                         dmg = boss_animation[2]
                     else:
                         self.running = False
+                        final_animation = True
                     aims = self.create_aims()
                     score = 0
                     goal *= 2
@@ -328,3 +332,7 @@ class GuitarHero:
 
             pg.display.update()
             self.clock.tick(self.FPS)
+
+        if final_animation:
+            e = EndGame()
+            e.play()

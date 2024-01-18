@@ -44,6 +44,7 @@ class EndLevel:
                     x, y = pg.mouse.get_pos()
                     if event.button == 1 and button.checkForInput((x, y)):
                         running = False
+                        pg.mixer.music.stop()
                         start_next_level = True
 
             x, y = pg.mouse.get_pos()
@@ -92,9 +93,10 @@ class EndGame:
 
 
 class Game:
-    def __init__(self, goal, duck_speed, width=1400, height=700):
+    def __init__(self, goal, duck_speed, next_stage=EndGame(), width=1400, height=700):
         self.WIDTH, self.HEIGHT = width, height
         self.duck_speed = duck_speed
+        self.next_stage = next_stage
         # Цель
         self.goal = goal
         self.score = 0
@@ -337,12 +339,13 @@ class Game:
             # Отображение цели
             score_font = pg.font.SysFont('Fonts/font2.ttf', 38)
             score_surface = score_font.render(f'Goal: {self.goal}', True, (255, 255, 255))
-            self.screen.blit(score_surface, (1250, 660))
+            if self.goal > -1:
+                self.screen.blit(score_surface, (1250, 660))
 
             # Кнопка конца уровня
             mouse_x, mouse_y = pg.mouse.get_pos()
             if mouse_clicked and self.button_end_level.checkForInput((mouse_x, mouse_y)):
-                if self.score >= self.goal:
+                if self.score >= self.goal > 0:
                     pg.mixer.music.load('Music/button_true.wav')
                     pg.mixer.music.set_volume(0.5)
                     pg.mixer.music.play(0)
@@ -350,11 +353,13 @@ class Game:
                     pause = EndLevel()
                     start_next_level = True
                 else:
-                    pg.mixer.music.load('Music/button_false.wav')
-                    pg.mixer.music.set_volume(0.5)
-                    pg.mixer.music.play(0)
+                    if self.goal > 0:
+                        pg.mixer.music.load('Music/button_false.wav')
+                        pg.mixer.music.set_volume(0.5)
+                        pg.mixer.music.play(0)
             self.button_end_level.changeColor((mouse_x, mouse_y))
-            self.button_end_level.update(self.screen)
+            if self.goal > 0:
+                self.button_end_level.update(self.screen)
 
             self.screen.blit(self.crosshair, cursor_xy)
             pg.display.flip()
@@ -373,3 +378,4 @@ class Game:
         if start_next_level:
             time.sleep(0.3)
             pause.play()
+            self.next_stage.play()

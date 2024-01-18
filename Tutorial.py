@@ -2,7 +2,7 @@ import pygame as pg
 
 
 class Tutorial:
-    def play(self, width=1400, height=700):
+    def play(self, next_stage, width=1400, height=700):
         tutorial_animation = []
         # change_sprite_event = pg.USEREVENT + 1
         # pg.time.set_timer(change_sprite_event, 500)
@@ -35,3 +35,6 @@ class Tutorial:
             pg.display.flip()
             pg.display.update()
             clock.tick(fps)
+
+        if start_first_level:
+            next_stage.play()
